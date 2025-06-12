@@ -172,27 +172,34 @@ class _CarteDeVisitePageState extends State<CarteDeVisitePage> {
                   ),
                 ),
                 const SizedBox(height: 30.0),
-                // Ligne pour l'e-mail
-                const Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.email,
-                      color: Colors.white70, // Couleur de l'icône ajustée
-                    ),
-                    SizedBox(width: 10.0),
-                    Text(
-                      'frederic.toppan@gmail.com',
-                      style: TextStyle(
-                        color: Colors.white70, // Couleur du texte ajustée
-                        fontSize: 18.0,
-                        letterSpacing: 1.0,
+                // Ligne pour l'e-mail, maintenant cliquable
+                InkWell( // Rends la Row cliquable et donne un effet visuel au tap
+                  onTap: () {
+                    // Lance le lien vers la page de contact de votre portfolio
+                    _launchURL('https://portfolio-frederic-toppan.vercel.app/contact');
+                  },
+                  child: const Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.email,
+                        color: Color.fromARGB(179, 174, 243, 15), // Nouvelle couleur de l'icône
                       ),
-                    )
-                  ],
+                      SizedBox(width: 10.0),
+                      Text(
+                        'frederic.toppan@gmail.com',
+                        style: TextStyle(
+                          color: Color.fromARGB(181, 238, 215, 5), // Nouvelle couleur du texte
+                          fontSize: 18.0,
+                          letterSpacing: 1.0,
+                          decoration: TextDecoration.underline, // Souligne le texte pour indiquer que c'est un lien
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 10.0), // Espacement entre l'e-mail et le site web
 
-                // Nouvelle ligne pour l'icône et le lien du site web
+                // Nouvelle ligne pour l'icône et le lien du site web (inchangée)
                 InkWell( // Rends la Row cliquable et donne un effet visuel au tap
                   onTap: () {
                     _launchURL('https://portfolio-frederic-toppan.vercel.app/'); // Remplacez par votre URL de portfolio
@@ -216,6 +223,16 @@ class _CarteDeVisitePageState extends State<CarteDeVisitePage> {
                     ],
                   ),
                 ),
+                InkWell(
+                  onTap: () {
+                  _launchURL('https://portfolio-frederic-toppan.vercel.app/');
+                  },
+                  child: Image.network(
+                  'https://portfolio-frederic-toppan.vercel.app/static/media/Shenzor.665b7cdd5c7bb9ab5b85.webp',
+                    height: 180.0, // Ajuste la taille selon tes besoins
+                 ),
+              ),
+                  const SizedBox(height: 20.0), // Espacement avant le logo
               ],
             ),
           ),
