@@ -1,5 +1,7 @@
 // Importe le package material de Flutter, qui contient les widgets et les outils pour créer une interface utilisateur selon les principes du Material Design.
 import 'package:flutter/material.dart';
+// Importe le package url_launcher pour ouvrir des URLs externes.
+import 'package:url_launcher/url_launcher.dart';
 
 // Le point d'entrée de toute application Flutter. La fonction `runApp` prend le widget racine et le monte à l'écran.
 void main() {
@@ -42,13 +44,33 @@ class _CarteDeVisitePageState extends State<CarteDeVisitePage> {
   // La variable d'état. C'est le niveau que nous allons afficher et modifier.
   int _niveauDeCompetence = 0;
 
-  // La méthode qui sera appelée lorsque l'utilisateur appuie sur le bouton.
+  // La méthode qui sera appelée lorsque l'utilisateur appuie sur le bouton pour augmenter le niveau.
   void _augmenterNiveau() {
     // setState est crucial : il notifie Flutter que l'état a changé,
     // ce qui déclenche une reconstruction du widget pour afficher la nouvelle valeur.
     setState(() {
       _niveauDeCompetence++;
     });
+  }
+
+  // La méthode qui sera appelée lorsque l'utilisateur appuie sur le bouton pour diminuer le niveau.
+  void _diminuerNiveau() {
+    setState(() {
+      // S'assurer que le niveau ne descend pas en dessous de zéro
+      if (_niveauDeCompetence > 0) {
+        _niveauDeCompetence--;
+      }
+    });
+  }
+
+  // Méthode pour lancer une URL dans un navigateur.
+  Future<void> _launchURL(String urlString) async {
+    final Uri url = Uri.parse(urlString);
+    if (!await launchUrl(url)) {
+      // Gérer l'erreur si l'URL ne peut pas être lancée.
+      // Dans une vraie application, vous afficheriez un message à l'utilisateur.
+      debugPrint('Could not launch $url');
+    }
   }
 
   @override
@@ -59,7 +81,7 @@ class _CarteDeVisitePageState extends State<CarteDeVisitePage> {
       appBar: AppBar(
         title: const Text('Ma Carte de Visite'),
         centerTitle: true,
-        backgroundColor: Colors.deepPurple[400],
+        backgroundColor: const Color.fromARGB(255, 33, 2, 145),
         foregroundColor: Colors.white,
       ),
       // Center permet de centrer son widget enfant.
@@ -80,7 +102,7 @@ class _CarteDeVisitePageState extends State<CarteDeVisitePage> {
               // Un séparateur visuel.
               const Divider(
                 height: 60.0, // Espace vertical total du séparateur
-                color: Colors.deepPurple,
+                color: Color.fromARGB(255, 5, 5, 5),
               ),
               const Text(
                 'NOM',
@@ -91,7 +113,7 @@ class _CarteDeVisitePageState extends State<CarteDeVisitePage> {
               Text(
                 'Frédéric TOPPAN',
                 style: TextStyle(
-                  color: Colors.deepPurple,
+                  color: const Color.fromARGB(255, 7, 7, 7),
                   letterSpacing: 2.0,
                   fontSize: 28.0,
                   fontWeight: FontWeight.bold,
@@ -99,28 +121,84 @@ class _CarteDeVisitePageState extends State<CarteDeVisitePage> {
               ),
               const SizedBox(height: 30.0),
               const Text(
-                'NIVEAU DE COMPÉTENCE FLUTTER',
+                ' FLUTTER LEVEL',
                 style: TextStyle(color: Colors.grey, letterSpacing: 2.0),
               ),
               const SizedBox(height: 10.0),
               Text(
                 '$_niveauDeCompetence', // Affiche la valeur de notre variable d'état.
                 style: TextStyle(
-                  color: Colors.deepPurple,
+                  color: const Color.fromARGB(255, 8, 8, 8),
                   letterSpacing: 2.0,
                   fontSize: 28.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 30.0),
-              // Un bouton surélevé.
+              // Un bouton surélevé pour augmenter le niveau.
               ElevatedButton.icon(
                 onPressed: _augmenterNiveau, // Appelle notre méthode au clic.
-                icon: const Icon(Icons.add),
+                icon: const Icon(Icons.arrow_upward),
                 label: const Text('Augmenter le niveau'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple[400],
+                  backgroundColor: const Color.fromARGB(255, 87, 194, 87),
                   foregroundColor: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 20.0), // Ajout d'un espacement entre les boutons
+              // Un bouton surélevé pour diminuer le niveau.
+              ElevatedButton.icon(
+                onPressed: _diminuerNiveau, // Appelle notre méthode au clic.
+                icon: const Icon(Icons.arrow_downward),
+                label: const Text('Diminuer le niveau'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 243, 53, 53),
+                  foregroundColor: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 30.0),
+              // Ligne pour l'e-mail
+              const Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.email,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(width: 10.0),
+                  Text(
+                    'frederic.toppan@gmail.com',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 18.0,
+                      letterSpacing: 1.0,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 10.0), // Espacement entre l'e-mail et le site web
+
+              // Nouvelle ligne pour l'icône et le lien du site web
+              InkWell( // Rends la Row cliquable et donne un effet visuel au tap
+                onTap: () {
+                  _launchURL('https://portfolio-frederic-toppan.vercel.app/'); // Remplacez par votre URL de portfolio
+                },
+                child: const Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.public, // Une icône de globe ou de lien est appropriée
+                      color: Colors.grey,
+                    ),
+                    SizedBox(width: 10.0),
+                    Text(
+                      'Mon Portfolio', // Texte du lien
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 18.0,
+                        letterSpacing: 1.0,
+                        decoration: TextDecoration.underline, // Souligne le texte pour indiquer que c'est un lien
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
