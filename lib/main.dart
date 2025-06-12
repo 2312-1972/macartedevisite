@@ -77,131 +77,147 @@ class _CarteDeVisitePageState extends State<CarteDeVisitePage> {
   Widget build(BuildContext context) {
     // Scaffold est un widget de base qui fournit la structure visuelle standard d'une page (barre d'app, corps, etc.).
     return Scaffold(
-      backgroundColor: Colors.grey[200], // Couleur de fond de la page
+      // Nous définissons la couleur de fond du Scaffold à transparent
+      // car le dégradé sera géré par le Container enfant.
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text('Ma Carte de Visite'),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 33, 2, 145),
         foregroundColor: Colors.white,
       ),
-      // Center permet de centrer son widget enfant.
-      body: Center(
-        // Padding ajoute de l'espace autour de son enfant.
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          // Column arrange ses enfants en une colonne verticale.
-          child: Column(
-            // Aligne les enfants au centre de la colonne horizontalement.
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              // Un avatar circulaire pour la photo de profil.
-              const CircleAvatar(
-                radius: 50.0,
-                backgroundImage: NetworkImage('https://portfolio-frederic-toppan.vercel.app/static/media/20180912_110504.b5862247acb948c84f0c.webp'), // Image de profil aléatoire
-              ),
-              // Un séparateur visuel.
-              const Divider(
-                height: 60.0, // Espace vertical total du séparateur
-                color: Color.fromARGB(255, 5, 5, 5),
-              ),
-              const Text(
-                'NOM',
-                style: TextStyle(color: Colors.grey, letterSpacing: 2.0),
-              ),
-              // SizedBox est utilisé pour créer un espacement vertical.
-              const SizedBox(height: 10.0),
-              Text(
-                'Frédéric TOPPAN',
-                style: TextStyle(
-                  color: const Color.fromARGB(255, 7, 7, 7),
-                  letterSpacing: 2.0,
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.bold,
+      // Le corps du Scaffold est un Container qui contient le dégradé.
+      body: Container(
+        // Définir la décoration du Container avec un LinearGradient pour le dégradé.
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft, // Début du dégradé en haut à gauche
+            end: Alignment.bottomRight, // Fin du dégradé en bas à droite
+            colors: [
+              Color.fromARGB(255, 60, 100, 170), // Un bleu plus clair
+              Color.fromARGB(255, 20, 50, 120),  // Un bleu plus foncé
+            ],
+          ),
+        ),
+        // Le contenu du Container est centré.
+        child: Center(
+          // Padding ajoute de l'espace autour de son enfant.
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            // Column arrange ses enfants en une colonne verticale.
+            child: Column(
+              // Aligne les enfants au centre de la colonne horizontalement.
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                // Un avatar circulaire pour la photo de profil.
+                const CircleAvatar(
+                  radius: 50.0,
+                  backgroundImage: NetworkImage('https://portfolio-frederic-toppan.vercel.app/static/media/20180912_110504.b5862247acb948c84f0c.webp'), // Image de profil aléatoire
                 ),
-              ),
-              const SizedBox(height: 30.0),
-              const Text(
-                ' FLUTTER LEVEL',
-                style: TextStyle(color: Colors.grey, letterSpacing: 2.0),
-              ),
-              const SizedBox(height: 10.0),
-              Text(
-                '$_niveauDeCompetence', // Affiche la valeur de notre variable d'état.
-                style: TextStyle(
-                  color: const Color.fromARGB(255, 8, 8, 8),
-                  letterSpacing: 2.0,
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.bold,
+                // Un séparateur visuel.
+                const Divider(
+                  height: 60.0, // Espace vertical total du séparateur
+                  color: Color.fromARGB(255, 5, 5, 5),
                 ),
-              ),
-              const SizedBox(height: 30.0),
-              // Un bouton surélevé pour augmenter le niveau.
-              ElevatedButton.icon(
-                onPressed: _augmenterNiveau, // Appelle notre méthode au clic.
-                icon: const Icon(Icons.arrow_upward),
-                label: const Text('Augmenter le niveau'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 87, 194, 87),
-                  foregroundColor: Colors.white,
+                const Text(
+                  'NOM',
+                  style: TextStyle(color: Colors.white70, letterSpacing: 2.0), // Couleur du texte ajustée pour le dégradé
                 ),
-              ),
-              const SizedBox(height: 20.0), // Ajout d'un espacement entre les boutons
-              // Un bouton surélevé pour diminuer le niveau.
-              ElevatedButton.icon(
-                onPressed: _diminuerNiveau, // Appelle notre méthode au clic.
-                icon: const Icon(Icons.arrow_downward),
-                label: const Text('Diminuer le niveau'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 243, 53, 53),
-                  foregroundColor: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 30.0),
-              // Ligne pour l'e-mail
-              const Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.email,
-                    color: Colors.grey,
+                // SizedBox est utilisé pour créer un espacement vertical.
+                const SizedBox(height: 10.0),
+                Text(
+                  'Frédéric TOPPAN',
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 255, 255, 255), // Couleur du texte ajustée pour le dégradé
+                    letterSpacing: 2.0,
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(width: 10.0),
-                  Text(
-                    'frederic.toppan@gmail.com',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 18.0,
-                      letterSpacing: 1.0,
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 10.0), // Espacement entre l'e-mail et le site web
-
-              // Nouvelle ligne pour l'icône et le lien du site web
-              InkWell( // Rends la Row cliquable et donne un effet visuel au tap
-                onTap: () {
-                  _launchURL('https://portfolio-frederic-toppan.vercel.app/'); // Remplacez par votre URL de portfolio
-                },
-                child: const Row(
+                ),
+                const SizedBox(height: 30.0),
+                const Text(
+                  ' FLUTTER LEVEL',
+                  style: TextStyle(color: Colors.white70, letterSpacing: 2.0), // Couleur du texte ajustée pour le dégradé
+                ),
+                const SizedBox(height: 10.0),
+                Text(
+                  '$_niveauDeCompetence', // Affiche la valeur de notre variable d'état.
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 255, 255, 255), // Couleur du texte ajustée pour le dégradé
+                    letterSpacing: 2.0,
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 30.0),
+                // Un bouton surélevé pour augmenter le niveau.
+                ElevatedButton.icon(
+                  onPressed: _augmenterNiveau, // Appelle notre méthode au clic.
+                  icon: const Icon(Icons.arrow_upward),
+                  label: const Text('Augmenter le niveau'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 87, 194, 87),
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 20.0), // Ajout d'un espacement entre les boutons
+                // Un bouton surélevé pour diminuer le niveau.
+                ElevatedButton.icon(
+                  onPressed: _diminuerNiveau, // Appelle notre méthode au clic.
+                  icon: const Icon(Icons.arrow_downward),
+                  label: const Text('Diminuer le niveau'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 243, 53, 53),
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 30.0),
+                // Ligne pour l'e-mail
+                const Row(
                   children: <Widget>[
                     Icon(
-                      Icons.public, // Une icône de globe ou de lien est appropriée
-                      color: Colors.grey,
+                      Icons.email,
+                      color: Colors.white70, // Couleur de l'icône ajustée
                     ),
                     SizedBox(width: 10.0),
                     Text(
-                      'Mon Portfolio', // Texte du lien
+                      'frederic.toppan@gmail.com',
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.white70, // Couleur du texte ajustée
                         fontSize: 18.0,
                         letterSpacing: 1.0,
-                        decoration: TextDecoration.underline, // Souligne le texte pour indiquer que c'est un lien
                       ),
-                    ),
+                    )
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 10.0), // Espacement entre l'e-mail et le site web
+
+                // Nouvelle ligne pour l'icône et le lien du site web
+                InkWell( // Rends la Row cliquable et donne un effet visuel au tap
+                  onTap: () {
+                    _launchURL('https://portfolio-frederic-toppan.vercel.app/'); // Remplacez par votre URL de portfolio
+                  },
+                  child: const Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.public, // Une icône de globe ou de lien est appropriée
+                        color: Colors.white70, // Couleur de l'icône ajustée
+                      ),
+                      SizedBox(width: 10.0),
+                      Text(
+                        'Mon Portfolio', // Texte du lien
+                        style: TextStyle(
+                          color: Colors.white70, // Couleur du texte ajustée
+                          fontSize: 18.0,
+                          letterSpacing: 1.0,
+                          decoration: TextDecoration.underline, // Souligne le texte pour indiquer que c'est un lien
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
